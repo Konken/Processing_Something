@@ -25,23 +25,27 @@ float[][]per=new float[howmanyContry][11];
 float[][]numOfPeople=new float[howmanyContry][11];
 float[]x=new float[howmanyContry];
 float[]y=new float[howmanyContry];
+float japan_X=804;
+float japan_y=470;
 public void setup() {
 	
 	img=loadImage("4.jpg");
 	reader = new XlsReader( this, "kankou_syukuhakukyaku.xls" );
 	for(int i=0;i<country.length;i++){
-		country[i]=reader.getString( i*4+5, 0 );
+		country[i]=reader.getString( i*4+4, 0 );
 		for(int j=0;j<11;j++){
-			per[i][j]=reader.getFloat( i*4+5, 3+j );
-			numOfPeople[i][j]=reader.getFloat( i*4+6, 3+j );
+			per[i][j]=reader.getFloat( i*4+4, 3+j );
+			println(per[i][j]);
+			numOfPeople[i][j]=reader.getFloat( i*4+5, 3+j );
 		}
+		println();
 	}
 	x[0]=726;
 	y[0]=549;
 
 	x[1]=759;
 	y[1]=478;
-	
+
 	x[2]=629;
 	y[2]=483;
 	
@@ -67,8 +71,9 @@ public void mousePressed() {
 public void draw() {
 	image(img, 0, 0, img.width/2*1.5f, img.height/2*1.5f);
 	for(int i=0;i<country.length;i++){
-		fill(255,0,0);
-		ellipse(x[i], y[i], numOfPeople[i][0]*2, numOfPeople[i][0]*2);
+		fill(per[i][0]*2,100,255);
+		noStroke();
+		ellipse(x[i], y[i], per[i][0]+20, per[i][0]+20);
 	}
 }
   public void settings() { 	size(1710,1137); }
