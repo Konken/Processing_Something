@@ -1,60 +1,50 @@
-import de.bezier.data.*;
-XlsReader reader;
-PImage img;
-int howmanyContry=8;
-String[]country=new String[howmanyContry];
-float[][]per=new float[howmanyContry][11];
-float[][]numOfPeople=new float[howmanyContry][11];
-float[]x=new float[howmanyContry];
-float[]y=new float[howmanyContry];
-float japan_X=804;
-float japan_y=470;
+Brush b;
 void setup() {
-	size(1710,1137);
-	img=loadImage("4.jpg");
-	reader = new XlsReader( this, "kankou_syukuhakukyaku.xls" );
-	for(int i=0;i<country.length;i++){
-		country[i]=reader.getString( i*4+4, 0 );
-		for(int j=0;j<11;j++){
-			per[i][j]=reader.getFloat( i*4+4, 3+j );
-			println(per[i][j]);
-			numOfPeople[i][j]=reader.getFloat( i*4+5, 3+j );
-		}
-		println();
-	}
-	x[0]=726;
-	y[0]=549;
-
-	x[1]=759;
-	y[1]=478;
-
-	x[2]=629;
-	y[2]=483;
-	
-	x[3]=694;
-	y[3]=554;
-	
-	x[4]=1363;
-	y[4]=457;
-	
-	x[5]=223;
-	y[5]=398;
-	
-	x[6]=796;
-	y[6]=792;
-	
-	x[7]=645;
-	y[7]=584;
+	fullScreen();
+	translate(width/2,height/2);
+	b=new Brush(0,0,random(360),200,40,600);
+	background(0);
+	stroke(255);
+	b.drawBrush();
 }
 
-void mousePressed() {
-	println(mouseX+","+mouseY);
-}
 void draw() {
-	image(img, 0, 0, img.width/2*1.5, img.height/2*1.5);
-	for(int i=0;i<country.length;i++){
-		fill(per[i][0]*2,100,255);
-		noStroke();
-		ellipse(x[i], y[i], per[i][0]+20, per[i][0]+20);
+	
+}
+
+class Brush{
+	float x,y,ang,len,howMany,howLong;
+	float nx=random(10);
+	float ny=random(10);
+	Brush(float x,float y,float ang,float len,float howMany,float howLong){
+		this.x=x;
+		this.y=y;
+		this.ang=ang;
+		this.len=len+random(-5,5);
+		this.howMany=howMany;
+		this.howLong=howLong;
+	}
+	void drawBrush(){
+		pushMatrix();
+		translate(x,y);
+		rotate(radians(ang));
+		for(int i=0;i<howMany;i++){
+			nx=random(10);
+			ny=random(10);
+			float x1=len;
+			float y1=random(-30,30);
+			float oldx=x1;
+			float oldy=y1;
+			for(int j=0;j<howLong;j++){
+				x1-=len/howLong*2;
+				y1+=(0.5-noise(ny));
+				ny+=0.008;
+				strokeWeight(5);
+				line(x1,y1,oldx,oldy) ;
+				oldx=x1;
+				oldy=y1;
+			}
+		}
+		popMatrix();
 	}
 }
