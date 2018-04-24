@@ -93,6 +93,7 @@ class Obj{
 	}
 	float give(float ballX,float ballY){
 		float temp=-degrees(atan2(abs(y-ballY),abs(x-ballX)));
+		println("xは"+ballX+" yは"+ballY+" 角度は"+temp);
 		return temp;
 	}
 }

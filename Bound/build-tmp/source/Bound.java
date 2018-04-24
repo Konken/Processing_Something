@@ -108,7 +108,8 @@ class Obj{
 		return temp;
 	}
 	public float give(float ballX,float ballY){
-		float temp=-degrees(atan2(abs(y-ballY),abs(x-ballX)));
+		float temp=(degrees(atan2(abs(y-ballY),abs(x-ballX)))+270)%360;
+		println("x\u306f"+ballX+" y\u306f"+ballY+" \u89d2\u5ea6\u306f"+temp);
 		return temp;
 	}
 }
