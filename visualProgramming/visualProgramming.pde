@@ -1,4 +1,4 @@
-Brush b;
+Brush[]b;
 void setup() {
 	fullScreen();
 	translate(width/2,height/2);
@@ -14,8 +14,9 @@ void draw() {
 
 class Brush{
 	float x,y,ang,len,howMany,howLong;
-	float nx=random(10);
-	float ny=random(10);
+	float sx=random(10);
+	float sy=random(10);
+	float ny=sy;
 	Brush(float x,float y,float ang,float len,float howMany,float howLong){
 		this.x=x;
 		this.y=y;
@@ -29,9 +30,8 @@ class Brush{
 		translate(x,y);
 		rotate(radians(ang));
 		for(int i=0;i<howMany;i++){
-			nx=random(10);
-			ny=random(10);
-			float x1=len;
+			ny=sy;
+			float x1=len+random(-30,30);
 			float y1=random(-30,30);
 			float oldx=x1;
 			float oldy=y1;
