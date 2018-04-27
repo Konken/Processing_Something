@@ -1,4 +1,5 @@
 Brush[]b;
+
 void setup() {
 	fullScreen();
 	translate(width/2,height/2);
