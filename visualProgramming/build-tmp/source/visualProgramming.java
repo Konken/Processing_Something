@@ -14,7 +14,8 @@ import java.io.IOException;
 
 public class visualProgramming extends PApplet {
 
-Brush b;
+Brush[]b;
+
 public void setup() {
 	
 	translate(width/2,height/2);
