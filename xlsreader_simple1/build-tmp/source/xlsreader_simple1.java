@@ -14,44 +14,114 @@ import java.io.IOException;
 
 public class xlsreader_simple1 extends PApplet {
 
-ArrayList hist = new ArrayList();
-float joinDist = 90;
 float tx,ty;
+Node[][]n;
+Node[][]n2;
+Node[][]n3;
+int len=10;
+int len2=40;
+int len3=80;
+float ranSize=len/2;
+float ranSize2=len2/2;
+float ranSize3=len3/2;
+PImage img;
+int now=2;
 public void setup() {
 	
-	background(0xff1AC8ED);
+	img = loadImage("meh.ro9480.jpg");
+	image(img,0,0,width,height);
+	loadPixels();
 	tx=0;
 	ty=height/2;
+	n=new Node[width/len][height/len];
+	n2=new Node[width/len2][height/len2];
+	n3=new Node[width/len3][height/len3];
+	for(int i=0;i<width/len;i++){
+		for(int j=0;j<height/len;j++){
+			n[i][j]=new Node(len,pixels[j*width*len + i*len],200);
+		}
+	}
+	for(int i=0;i<width/len2;i++){
+		for(int j=0;j<height/len2;j++){
+			n2[i][j]=new Node(len2,pixels[j*width*len2 + i*len2],100);
+		}
+	}
+	for(int i=0;i<width/len3;i++){
+		for(int j=0;j<height/len3;j++){
+			n3[i][j]=new Node(len3,pixels[j*width*len3 + i*len3],40);
+		}
+	}
+	background(255);
 }
 
 public void draw() {
-	for(int i=0;i<width;i+=20){
-		for(int j=0;j<height;j+=20){
-			make(random(i-10,i+10),random(j-10,j+10));
+	if(now==0){
+		for(int i=0;i<width/len;i++){
+			for(int j=0;j<height/len;j++){
+				n[i][j].make(random(i*len-ranSize,i*len+ranSize),random(j*len-ranSize,j*len+ranSize));
+			}
 		}
+	}
+	else if(now==1){
+		for(int i=0;i<width/len2;i++){
+			for(int j=0;j<height/len2;j++){
+				n2[i][j].make(random(i*len2-ranSize2,i*len2+ranSize2),random(j*len2-ranSize2,j*len2+ranSize2));
+			}
+		}
+	}
+	else if(now==2){
+		for(int i=0;i<width/len3;i++){
+			for(int j=0;j<height/len3;j++){
+				n3[i][j].make(random(i*len3-ranSize3,i*len3+ranSize3),random(j*len3-ranSize3,j*len+ranSize3));
+			}
+		}
+	}
+	if(frameCount%200==0){
+		now--;
+	}
+	saveFrame("pic/line-####.tif"); 
+	if(frameCount==200*5){
+		exit();
 	}
 }
 
 public void mouseDragged() {
-	make(mouseX,mouseY);
-}
-public void make(float x,float y){
-	stroke(0xff8C2155, 25);
-	strokeWeight(1);
-	PVector d = new PVector(x,y, 0);
-	hist.add(0,d);
-	for (int p = 0; p < hist.size(); p++) {
-		PVector v = (PVector) hist.get(p);
-		float joinChance = p/hist.size() +
-		d.dist(v)/joinDist;
-		if (joinChance < random(1))
-			line(d.x, d.y, v.x, v.y);
+	for(int i=0;i<width/len;i++){
+		for(int j=0;j<height/len;j++){
+			n[i][j].make(mouseX,mouseY);
+		}
 	}
 }
+
 public void keyPressed() {
-	if (key == ' ') {
-		background(0xff1AC8ED);
-		hist.clear();
+	now--;
+}
+class Node{
+	ArrayList hist = new ArrayList();
+	float joinDist = 90;
+	float s;
+	int c;
+	float al;
+	Node(float s,int c,float al){
+		this.c=c;
+		this.s=s;
+		this.al=al;
+	}
+	public void make(float x,float y){
+		if(5<hist.size()){
+			hist.remove(0);
+		}
+		stroke(c, al);
+		strokeWeight(1);
+		PVector d = new PVector(x+random(-s,s),y+random(-s,s), 0);
+		hist.add(0,d);
+		for (int p = 0; p < hist.size(); p++) {
+			PVector v = (PVector) hist.get(p);
+			float joinChance = p/hist.size() +
+			d.dist(v)/joinDist;
+			if (joinChance < random(1))
+				line(d.x, d.y, v.x, v.y);
+		}
 	}
 }
 
@@ -106,9 +176,9 @@ void keyPressed() {
 		hist.clear();
 	}
 }*/
-  public void settings() { 	fullScreen(); }
+  public void settings() { 	fullScreen(2); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "xlsreader_simple1" };
+    String[] appletArgs = new String[] { "--present", "--window-color=#EA0202", "--stop-color=#E81C1C", "xlsreader_simple1" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

@@ -14,7 +14,8 @@ import java.io.IOException;
 
 public class visualProgramming extends PApplet {
 
-Brush b;
+Brush[]b;
+
 public void setup() {
 	
 	translate(width/2,height/2);
@@ -66,7 +67,7 @@ class Brush{
 }
   public void settings() { 	fullScreen(); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "visualProgramming" };
+    String[] appletArgs = new String[] { "--present", "--window-color=#EA0202", "--stop-color=#E81C1C", "visualProgramming" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
