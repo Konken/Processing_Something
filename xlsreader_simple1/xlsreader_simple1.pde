@@ -2,17 +2,20 @@ float tx,ty;
 Node[][]n;
 Node[][]n2;
 Node[][]n3;
+Node[][]n4;
 int len=10;
 int len2=40;
-int len3=80;
+int len3=60;
+int len4=80;
 float ranSize=len/2;
 float ranSize2=len2/2;
 float ranSize3=len3/2;
+float ranSize4=len4/2;
 PImage img;
-int now=2;
+int now=3;
 void setup() {
 	fullScreen(2);
-	img = loadImage("meh.ro9480.jpg");
+	img = loadImage("東雲めぐさん.png");
 	image(img,0,0,width,height);
 	loadPixels();
 	tx=0;
@@ -20,6 +23,7 @@ void setup() {
 	n=new Node[width/len][height/len];
 	n2=new Node[width/len2][height/len2];
 	n3=new Node[width/len3][height/len3];
+	n4=new Node[width/len4][height/len4];
 	for(int i=0;i<width/len;i++){
 		for(int j=0;j<height/len;j++){
 			n[i][j]=new Node(len,pixels[j*width*len + i*len],200);
@@ -35,10 +39,18 @@ void setup() {
 			n3[i][j]=new Node(len3,pixels[j*width*len3 + i*len3],40);
 		}
 	}
+	for(int i=0;i<width/len4;i++){
+		for(int j=0;j<height/len4;j++){
+			n4[i][j]=new Node(len4,pixels[j*width*len4 + i*len4],20);
+		}
+	}
 	background(255);
 }
 
 void draw() {
+	/*fill(255,10);
+	noStroke();
+	rect(0,0,width,height);*/
 	if(now==0){
 		for(int i=0;i<width/len;i++){
 			for(int j=0;j<height/len;j++){
@@ -54,16 +66,23 @@ void draw() {
 		}
 	}
 	else if(now==2){
-		for(int i=0;i<width/len3;i++){
+		for(int i=0;i<width/len3;i++){	
 			for(int j=0;j<height/len3;j++){
 				n3[i][j].make(random(i*len3-ranSize3,i*len3+ranSize3),random(j*len3-ranSize3,j*len+ranSize3));
 			}
 		}
 	}
-	if(frameCount%200==0){
+	else if(now==3)
+{		for(int i=0;i<width/len4;i++){
+			for(int j=0;j<height/len4;j++){
+				n4[i][j].make(random(i*len4-ranSize4,i*len4+ranSize4),random(j*len4-ranSize4,j*len+ranSize4));
+			}
+		}
+	}
+	if(frameCount%150==0){
 		now--;
 	}
-	saveFrame("pic/line-####.tif"); 
+	//saveFrame("pic/line-####.tif"); 
 	if(frameCount==200*5){
 		exit();
 	}
@@ -92,6 +111,7 @@ class Node{
 		this.al=al;
 	}
 	void make(float x,float y){
+		noFill();
 		if(5<hist.size()){
 			hist.remove(0);
 		}
