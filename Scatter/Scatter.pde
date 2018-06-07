@@ -7,8 +7,8 @@ float g1=216;
 float b1=239;
 float r2=255;
 float g2=99;
-float b2=71
-;	float r3=48;
+float b2=71;
+float r3=48;
 float g3=61;
 float b3=139;
 float difR1;

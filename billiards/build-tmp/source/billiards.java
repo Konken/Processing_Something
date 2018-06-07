@@ -18,128 +18,138 @@ float SPEED = 5;
 float R = 20	;
 int NUMBER = 100;
 Ball[] balls = new Ball[NUMBER];
-float des=1;
+float des=1	;
 public void setup() {
-  
-  background(0);
-  
-  float angle = TWO_PI / NUMBER;
-  for (int i = 0; i < NUMBER; i++) {
-    float addx = cos(angle * i);
-    float addy = sin(angle * i);
-    balls[i] = new Ball(
-    random(width),random(height), 
-    SPEED * addx + 1, SPEED * addy  + 1, i, balls);
-  }
+	
+	background(0);
+
+	float angle = TWO_PI / NUMBER;
+	for (int i = 0; i < NUMBER; i++) {
+		float addx = cos(angle * i);
+		float addy = sin(angle * i);
+		balls[i] = new Ball(
+			random(width),random(height), 
+			SPEED * addx + 1, SPEED * addy  + 1, i, balls);
+	}
 }
 
 public void draw() {
-  background(0);
-  for (int i = 0; i < NUMBER; i++) {
-    balls[i].clearVector();
-  }
-  for (int i = 0; i < NUMBER; i++) {
-    Ball ball = (Ball) balls[i];
-    ball.collide();
-    ball.move();
-    ball.draw();
-  }
+	background(0xff64F58D);
+	for (int i = 0; i < NUMBER; i++) {
+		balls[i].clearVector();
+	}
+	for (int i = 0; i < NUMBER; i++) {
+		Ball ball = (Ball) balls[i];
+		ball.collide();
+		ball.move();
+		ball.draw();
+	}
 }
 
 class Ball
 {
-  float x, y;
-  float vx, vy;
-  PVector target = new PVector();
-  PVector impulse = new PVector(1, 1);
-  int id;
-  Ball[] others;
-  Ball(
-  float _x, float _y, float _vx, float _vy, int _id, Ball[] _others) {
-    x = _x;
-    y = _y;
-    vx = _vx;
-    vy = _vy;
-    id = _id;
-    others = _others;
-  }
+	float x, y;
+	float vx, vy;
+	PVector target = new PVector();
+	PVector impulse = new PVector(1, 1);
+	int id;
+	Ball[] others;
+	int count=0;
+	Ball(
+		float _x, float _y, float _vx, float _vy, int _id, Ball[] _others) {
+		x = _x;
+		y = _y;
+		vx = _vx;
+		vy = _vy;
+		id = _id;
+		others = _others;
+	}
 
-  public void move() {
-    vx *= impulse.x;   
-    x = x + vx + target.x;
- 
-    if (x - R <= 0) {
-      x = R;
-      vx *= -1*des;
-    }
-    if (x + R >= width) {
-      x = width - R;
-      vx *= -1*des;
-    }
+	public void move() {
+		vx *= impulse.x;   
+		x = x + vx + target.x;
 
-    vy *= impulse.y;
-    y = y + vy + target.y;
+		if (x - R <= 0) {
+			x = R;
+			vx *= -1*des;
+			count=60;
+		}
+		if (x + R >= width) {
+			x = width - R;
+			vx *= -1*des;
+			count=60;
+		}
 
-    if (y - R <= 0) {
-      y = R;
-      vy *= -1*des;
-    }
-    if (y + R >= height) {
-      y = height - R;
-      vy *= -1*des;
-    }
-  }
-  
-  public void draw() {
-    noFill();
-    stroke(255);
-    ellipse(x, y, R * 2, R * 2);
-  }
-  
-  public void clearVector() {
-    target.x = 0;
-    target.y = 0;
-    impulse.x = 1;
-    impulse.y = 1;
-  }
-  public void collide() {
-    for (int i = id + 1; i < NUMBER; i++) {
-      Ball otherBall = (Ball) others[i];
-      float dx = otherBall.x - x;
-      float dy = otherBall.y - y;
-      float distance =sqrt(dx * dx + dy * dy);
-      if (distance <= R * 2) {
-      	vx*=des;
-      	vy*=des;
-        float angle = atan2(dy, dx);
-        float push_distance = R * 2 - distance; // / 2;
-        float push_x = push_distance * cos(angle);
-        float push_y = push_distance * sin(angle);
+		vy *= impulse.y;
+		y = y + vy + target.y;
 
-        target.x -= push_x;
-        target.y -= push_y;        
-        otherBall.target.x += push_x;
-        otherBall.target.y += push_y;
+		if (y - R <= 0) {
+			y = R;
+			vy *= -1*des;
+			count=60;
+		}
+		if (y + R >= height) {
+			y = height - R;
+			vy *= -1*des;
+			count=60;
+		}
+	}
 
-        //\u53cd\u767a\u5f8c\u306e\u79fb\u52d5\u65b9\u5411\u3092\u8a2d\u5b9a
-        if ((vx >= 0 && vx - otherBall.vx >= 0) || (vx < 0 && vx - otherBall.vx < 0)) {
-          impulse.x = -0.1f;
-        }
-        
-        if (vx * otherBall.vx <= 0) {
-          otherBall.impulse.x = -0.11f;
-        }
-        
-        if ((vy >= 0 && vy - otherBall.vy >= 0) || (vy < 0 && vy - otherBall.vy < 0)) {
-          impulse.y = -0.1f;
-        }
+	public void draw() {
+		if(0<count){
+			fill(0xff8D80AD);
+			noStroke();
+			count--;
+		}
+		else{
+			noFill();
+		}
+		ellipse(x, y, R * 2, R * 2);
+	}
 
-        if (vy *  otherBall.vy <= 0) {
-          otherBall.impulse.y = -0.1f;
-        }
-      }
-    }
-  }
+	public void clearVector() {
+		target.x = 0;
+		target.y = 0;
+		impulse.x = 1;
+		impulse.y = 1;
+	}
+	public void collide() {
+		for (int i = id + 1; i < NUMBER; i++) {
+			Ball otherBall = (Ball) others[i];
+			float dx = otherBall.x - x;
+			float dy = otherBall.y - y;
+			float distance =sqrt(dx * dx + dy * dy);
+			if (distance <= R * 2) {
+				count=60;
+				vx*=des;
+				vy*=des;
+				float angle = atan2(dy, dx);
+				float push_distance = R * 2 - distance;
+				float push_x = push_distance * cos(angle);
+				float push_y = push_distance * sin(angle);
+
+				target.x -= push_x;
+				target.y -= push_y;        
+				otherBall.target.x += push_x;
+				otherBall.target.y += push_y;
+				if ((vx >= 0 && vx - otherBall.vx >= 0) || (vx < 0 && vx - otherBall.vx < 0)) {
+					impulse.x = -1;
+				}
+
+				if (vx * otherBall.vx <= 0) {
+					otherBall.impulse.x = -1;
+				}
+
+				if ((vy >= 0 && vy - otherBall.vy >= 0) || (vy < 0 && vy - otherBall.vy < 0)) {
+					impulse.y = -0.1f;
+				}
+
+				if (vy *  otherBall.vy <= 0) {
+					otherBall.impulse.y = -1;
+				}
+			}
+		}
+	}
 }
 /*float yoah=1;
 float kdn=390;
@@ -228,7 +238,7 @@ class Ball{
 		}
 	}
 }*/
-  public void settings() {  fullScreen(); }
+  public void settings() { 	fullScreen(); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "billiards" };
     if (passedArgs != null) {
