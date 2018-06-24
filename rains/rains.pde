@@ -46,12 +46,12 @@ class Raindrop{
 	boolean ripple(){
 		boolean b=false;
 		beginShape();
-		stroke(255,255-nowRad*5);
+		stroke(255,255-nowRad*4);
 		noFill();
 		for(int i=0;i<360;i++){
 			vertex(x+nowRad*cos(radians(i)),y+nowRad*sin(radians(i)),0);
 		}
-		endShape();
+		endShape();	
 		nowRad+=1.5;
 		if(rad<nowRad){
 			b=true;

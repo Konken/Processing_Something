@@ -1,4 +1,4 @@
-Brush[]b;
+Brush b;
 
 void setup() {
 	fullScreen();

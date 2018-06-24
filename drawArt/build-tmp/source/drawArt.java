@@ -143,7 +143,7 @@ class Brush{
 
   public void settings() { 	fullScreen(); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "--present", "--window-color=#EA0202", "--stop-color=#E81C1C", "drawArt" };
+    String[] appletArgs = new String[] { "drawArt" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

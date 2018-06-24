@@ -19,6 +19,9 @@ Country[]con;
 int howManyContry=6;
 PVector[]xy;
 int[]tempColor;
+float rad=70;
+float h1=0;
+float h2=0;
 public void setup() {
 	
 	c=new Cell[100];
@@ -35,7 +38,7 @@ public void setup() {
 	int count=0;
 	for(int i=0;i<3;i++){
 		for(int j=0;j<2;j++){
-			xy[count]=new PVector(width/3*(i+1)-width/6,height/2*(j+1)-height/3);
+			xy[count]=new PVector(width/3*(i+1)-width/6,height/2*(j+1)-height/3+50);
 			count++;
 		}
 	}
@@ -49,14 +52,48 @@ public void setup() {
 
 public void draw() {
 	background(206, 183, 181);
+	stroke(255);
+	fill(157,197,191);
+	triangle(225,100,225,100+rad,225-rad*sqrt(3)/2,100+rad-rad/2);
+	triangle(width-225,100,width-225,100+rad,width-225+rad*sqrt(3)/2,100+rad-rad/2);
 	noStroke();
 	for(int i=0;i<c.length;i++){
 		c[i].move();
 		c[i].draw();
 	}
-}
+	if((225>mouseX&&mouseX>225-rad*sqrt(3)/2)&&(100<mouseY&&mouseY<100+rad)){
+		println("10");
+		if(h1<69){
+			h1+=10;
+		}
+		else{
+			h1=69;
+		}
+	}
+	else{
+		if(0<h1){
+			h1-=10;
+		}
+		else h1=0;
+	}
+	fill(157,197,191,100);
+	noStroke();
+	beginShape();
+	vertex(226,100);
+	vertex(226,100+h1);
 
+	vertex(226-h1*sqrt(3),100+h1);
+	endShape(CLOSE);
+}
+/*void mousePressed(){
+	if((225<mouseX&&mouseX<225-rad)&&(100<mouseY&&mouseY<100+rad)){
+		background(0);
+	}
+}*/
 public void mousePressed(){
+	if((225<mouseX&&mouseX<225-rad)&&(100<mouseY&&mouseY<100+rad)){
+		background(0);
+	}
 	for(int i=0;i<c.length;i++){
 		int t=(int)random(howManyContry);
 		PVector temp=con[t].change();

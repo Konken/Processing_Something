@@ -12,7 +12,7 @@ void draw() {
 	background(0);
 	o.drawEllipse();
 	for(int i=0;i<b.length;i++){
-		b[i].update();
+		b[i].update();	
 		if(o.collision(b[i].x,b[i].y)){
 			b[i].angle=o.getAngle(b[i].x,b[i].y);
 			b[i].x=o.x+cos(radians(o.give(b[i].x,b[i].y)))*o.rad/2;
